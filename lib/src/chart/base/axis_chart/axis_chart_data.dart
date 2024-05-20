@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:equatable/equatable.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_painter.dart';
+import 'package:fl_chart/src/chart/base/axis_chart/side_titles/side_titles_flex.dart';
 import 'package:fl_chart/src/utils/lerp.dart';
 import 'package:flutter/material.dart' hide Image;
 
@@ -139,6 +140,10 @@ Widget defaultGetTitle(double value, TitleMeta meta) {
   );
 }
 
+typedef FilterTitleFunction = bool Function(AxisSideTitleMetaData meta);
+
+bool defaultFilterTitle(AxisSideTitleMetaData meta) => true;
+
 /// Holds data for showing label values on axis numbers
 class SideTitles with EquatableMixin {
   /// It draws some title on an axis, per axis values,
@@ -159,6 +164,7 @@ class SideTitles with EquatableMixin {
   const SideTitles({
     this.showTitles = false,
     this.getTitlesWidget = defaultGetTitle,
+    this.filterTitles = defaultFilterTitle,
     this.reservedSize = 22,
     this.interval,
   }) : assert(interval != 0, "SideTitles.interval couldn't be zero");
@@ -169,6 +175,8 @@ class SideTitles with EquatableMixin {
   /// You can override it to pass your custom widget to show in each axis value
   /// We recommend you to use [SideTitleWidget].
   final GetTitleWidgetFunction getTitlesWidget;
+
+  final FilterTitleFunction filterTitles;
 
   /// It determines the maximum space that your titles need,
   /// (All titles will stretch using this value)

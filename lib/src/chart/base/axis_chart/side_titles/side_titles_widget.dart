@@ -149,7 +149,7 @@ class SideTitlesWidget extends StatelessWidget {
         return AxisSideTitleMetaData(axisValue, axisLocation);
       }).toList();
     }
-    return axisPositions.map(
+    return axisPositions.where(sideTitles.filterTitles).map(
       (metaData) {
         return AxisSideTitleWidgetHolder(
           metaData,
